@@ -18,3 +18,7 @@
 .taken{
     background-color: green;
 }
+
+.hidden {
+    /* visibility:hidden; */
+}

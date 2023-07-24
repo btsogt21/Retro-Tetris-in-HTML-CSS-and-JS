@@ -1,0 +1,19 @@
+Learning Guide for creating my own basic Tetris
+
+1. Set up basic UI:
+3
+	a. What languages are going to be used and what?
+		CSS, HTML, and Javascript. HTML should be used to provide the basic structure (markup language, creates static web pages and web apps), CSS used to style the html elements based on attributes (When you throw in CSS, you can style things based on attributes. The most commonly used attribute for this is the "class". Let's say your big black box is for showing image captions. You can say "draw a caption box here. Draw a caption box there." Then you'd make a CSS sheet that says "a caption box is black and 200 x 300".
+
+		What's the point? Well, after you've drawn all these caption boxes you realize that they don't look right on mobile devices. Now what? Easy! Just go to your CSS and add "I want captions to be narrower if the viewport is narrow." Then all your black boxes will adopt that change without you having to do each one manually.
+
+		He biggest advantage of keeping this separation is that you can make sweeping style changes by changing just one CSS file.)
+		
+		Javascript shoud let us create additional functionality that is not otherwise achievable with HTML or CSS. FOr example, allows reponse to user acdtivity and dynamic updating (that is, updating without requiring a page to reload)
+		
+	b. What elements shoudl be in the UI?:
+		- start button
+		- score tracker
+		- box for the tetris itself
+		
+		
