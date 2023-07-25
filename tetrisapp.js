@@ -64,14 +64,23 @@ document.addEventListener('DOMContentLoaded', ()=>{
         [1, width+1, width*2+1, width*3+1],
         [width, width+1, width+2, width+3]
     ]
-    const Tetrominoes = [lTetromino, jTetromino, iTetromino, oTetromino, zTetromino, sTetromino, tTetromino]
+    // const Tetrominoes = [lTetromino, jTetromino, iTetromino, oTetromino, zTetromino, sTetromino, tTetromino]
+    const Tetrominoes = {
+        'lTetromino': lTetromino,
+        'jTetromino': jTetromino,
+        'iTetromino': iTetromino,
+        'oTetromino': oTetromino,
+        'zTetromino': zTetromino,
+        'sTetromino': sTetromino,
+        'tTetromino': tTetromino
+    }
 
 
-
-    let random = Math.floor(Math.random()*Tetrominoes.length)
+    let random = Math.floor(Math.random()*Object.keys(Tetrominoes).length)
     let currentPosition = 4
     let currentRotation = 0
-    let currentTetromino = Tetrominoes[random][currentRotation]
+    let currentTetrominoName = Object.keys(Tetrominoes)[random]
+    let currentTetromino = Tetrominoes[currentTetrominoName][currentRotation]
 
     function draw(){
         currentTetromino.forEach(index => {
@@ -83,10 +92,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
             cells[currentPosition + index].classList.remove('tetromino')
         })
     }
-    timerId = setInterval(moveDown, 100)
+
     let gameOver = false;
     function moveDown() {
         if (gameOver){
+            clearInterval(timerId)
             return
         }
         undraw()
@@ -112,25 +122,52 @@ document.addEventListener('DOMContentLoaded', ()=>{
     // be needed after the extension, but I can't think quite that far ahead right now.
     function stop(){
         if(currentTetromino.some(index => cells[currentPosition + index + width].classList.contains('taken'))){
-            let maxIndex = Math.max(...currentTetromino)
-            console.log(maxIndex)
-            console.log(currentPosition)
-            if((maxIndex+currentPosition)<40){
-                console.log(currentPosition)
-                gameOver = true;
+            console.trace(currentTetrominoName)
+            // console.log(currentTetrominoName)
+            // for (let i = 0; i<currentTetromino.length; i++){
+            //     console.log(currentPosition + width + currentTetromino[i])
+            // }
+            // let maxIndex = Math.max(...currentTetromino)
+            // console.log(maxIndex)
+            // console.log(currentPosition)
+            // if((maxIndex+currentPosition)<40){
+            //     console.log(currentPosition)
+            //     gameOver = true;
+            //     clearInterval(timerId)
+            //     alert("Game Over")
+            // }
+            // console.log('here')
+            currentTetromino.forEach(index => cells[currentPosition + index].classList.add('taken'))
+            random = Math.floor(Math.random()*Object.keys(Tetrominoes).length)
+            currentTetrominoName = Object.keys(Tetrominoes)[random]
+            currentTetromino = Tetrominoes[currentTetrominoName][currentRotation]
+            // random = Math.floor(Math.random()*Tetrominoes.length)
+            // currentTetromino = Tetrominoes[][currentRotation]
+            currentPosition = 4
+            // trying to use the following if check to make sure that the base game over condition is properly triggered,
+            // the base game over condition being that at least one of the cells immediately below the new tetromino's 
+            // lowermost cells is 'taken'. However, this seems to present a number of issues that I can't quite
+            // figure out the origin of. For example, the game over condition will be triggered prematurely sometimes,
+            // with the console.log statement showing a given cell is taken, but the html element associated with
+            // said cell not showing the 'taken' class at the end of execution.
+            if(currentTetromino.some(index => cells[currentPosition + index + width].classList.contains('taken'))){
+                gameOver=true;
                 clearInterval(timerId)
+                console.trace(currentTetrominoName)
+                for (let i = 0; i<currentTetromino.length; i++){
+                    console.log("1. Current Position: " + currentPosition)
+                    console.log("2. Cell that is taken: " + (currentPosition + width + currentTetromino[i]).toString())
+                    console.log("3. Is that cell actually taken? " + cells[currentPosition + width + currentTetromino[i]].classList.contains('taken'))
+                }
+                draw()
                 alert("Game Over")
             }
-            currentTetromino.forEach(index => cells[currentPosition + index].classList.add('taken'))
-            random = Math.floor(Math.random()*Tetrominoes.length)
-            currentTetromino = Tetrominoes[random][currentRotation]
-            currentPosition = 4
-            if(currentTetromino.some(index => cells[currentPosition + index].classList.contains('taken'))){
-            draw()
+            else{
+                draw()
             }
         }
-        return 1
     }
+    timerId = setInterval(moveDown, 50)
 })
 
 
