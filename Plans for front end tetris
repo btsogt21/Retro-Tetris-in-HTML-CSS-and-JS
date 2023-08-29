@@ -1,0 +1,19 @@
+Plans for Front-End Tetris:
+
+July 24th:
+
+
+
+Maybe split fucntionality of bricking up blocked tetrominoes and checking if the tetromino has room to move to the next row. This could help fix some of the concurrency issues we are dealing with.
+
+Consider using something other than setInterval to move the tetrominoes. 
+
+Figure out where the fuck the VM calls are coming from.
+
+
+Aug 28th:
+
+Month break from everything, need to not do that anymore.
+
+Figured out where the VM calls were coming from. I had two script tags where I was importing the tetrisapp.js in my index.html. This was causing the second instance of the game to happen. Keep an eye out for anything else as we still had more on our list of potential causes.
+

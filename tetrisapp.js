@@ -99,9 +99,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
             clearInterval(timerId)
             return
         }
+
         undraw()
+
         currentPosition += width
+
         draw()
+
         stop()
     }
 
@@ -167,7 +171,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             }
         }
     }
-    timerId = setInterval(moveDown, 50)
+    timerId = setInterval(moveDown, 100)
 })
 
 
