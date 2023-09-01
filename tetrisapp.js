@@ -82,6 +82,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let currentTetrominoName = Object.keys(Tetrominoes)[random]
     let currentTetromino = Tetrominoes[currentTetrominoName][currentRotation]
 
+    let gameOver = false;
+    function moveDown() {
+        if (gameOver){
+            clearInterval(timerId)
+            return
+        }
+        undraw()
+        currentPosition += width
+        draw()
+        stop()
+    }
+
     function draw(){
         currentTetromino.forEach(index => {
             cells[currentPosition + index].classList.add('tetromino')
@@ -91,22 +103,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         currentTetromino.forEach(index => {
             cells[currentPosition + index].classList.remove('tetromino')
         })
-    }
-
-    let gameOver = false;
-    function moveDown() {
-        if (gameOver){
-            clearInterval(timerId)
-            return
-        }
-
-        undraw()
-
-        currentPosition += width
-
-        draw()
-
-        stop()
     }
 
     //
@@ -124,6 +120,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     // is properly trigerring once a tetromino no longer has any room to enter the visible section of the grid,
     // and then maybe extend the spawn area further upward to allow for maneuvering. Other changes will likely
     // be needed after the extension, but I can't think quite that far ahead right now.
+
+    // UPDATE, AUG 31st, 2023: figured it out. Had to do with importing the js twice in the index.html.
     function stop(){
         if(currentTetromino.some(index => cells[currentPosition + index + width].classList.contains('taken'))){
             console.trace(currentTetrominoName)
@@ -154,6 +152,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
             // figure out the origin of. For example, the game over condition will be triggered prematurely sometimes,
             // with the console.log statement showing a given cell is taken, but the html element associated with
             // said cell not showing the 'taken' class at the end of execution.
+
+            // figured it out. Had to do with importing the js twice in the index.html.
             if(currentTetromino.some(index => cells[currentPosition + index + width].classList.contains('taken'))){
                 gameOver=true;
                 clearInterval(timerId)
@@ -163,14 +163,56 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     console.log("2. Cell that is taken: " + (currentPosition + width + currentTetromino[i]).toString())
                     console.log("3. Is that cell actually taken? " + cells[currentPosition + width + currentTetromino[i]].classList.contains('taken'))
                 }
-                draw()
-                alert("Game Over")
+                // draw() // removed because redundant
+                setTimeout(function(){alert("Game Over")}, 100)
             }
             else{
                 draw()
             }
         }
     }
+    // let moveTimeout;
+    // let moveInterval;
+    function control(e){
+        if(e.keyCode === 37){
+            moveLeft();
+            // moveTimeout = setTimeout(()=>{moveInterval = setInterval(moveLeft, 50);}, 200);
+        }
+        // else if(e.keyCode === 38){
+        //     rotate()
+        // }
+        else if(e.keyCode === 39){
+            moveRight();
+            // moveTimeout = setTimeout(()=>{moveInterval = setInterval(moveRight, 50);}, 200);
+        }
+        // else if(e.keyCode === 40){
+        //     moveDown();
+        // }
+    }
+    // function controlUp(e){
+    //     clearTimeout(moveTimeout);
+    //     clearInterval(moveInterval);
+    // }
+    function moveLeft() {
+        undraw();
+        const isAtLeftEdge = currentTetromino.some(index => (currentPosition + index) % width === 0);
+        if (!isAtLeftEdge) currentPosition -= 1;
+        if (currentTetromino.some(index => cells[currentPosition + index].classList.contains('taken'))) {
+            currentPosition+=1;
+        }
+        draw();
+    }
+    function moveRight(){
+        undraw();
+        const isAtRightEdge = currentTetromino.some(index => (currentPosition + index)% width === width - 1);
+        if (!isAtRightEdge) currentPosition += 1;
+        if (currentTetromino.some(index => cells[currentPosition + index].classList.contains('taken'))) {
+            currentPosition-=1;
+        }
+        draw();
+    }
+    document.addEventListener('keydown', control);
+    // document.addEventListener('keyup', controlUp);
     timerId = setInterval(moveDown, 100)
 })
 

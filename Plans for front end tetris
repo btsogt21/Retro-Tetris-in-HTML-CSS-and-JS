@@ -17,3 +17,10 @@ Month break from everything, need to not do that anymore.
 
 Figured out where the VM calls were coming from. I had two script tags where I was importing the tetrisapp.js in my index.html. This was causing the second instance of the game to happen. Keep an eye out for anything else as we still had more on our list of potential causes.
 
+Sep 31st-Sep 1st:
+
+Worked on since last commit:
+
+	Implemented left-right movement and boundary collision using Eventlistener and custom functions. Need to implement something to make sure that the continuous movement that comes with long-presses of the left/right buttons is not interrupted by presses of unused keys in game.
+
+	Hid the spawn zone again.
