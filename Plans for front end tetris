@@ -24,3 +24,13 @@ Worked on since last commit:
 	Implemented left-right movement and boundary collision using Eventlistener and custom functions. Need to implement something to make sure that the continuous movement that comes with long-presses of the left/right buttons is not interrupted by presses of unused keys in game.
 
 	Hid the spawn zone again.
+	
+Sep 7th:
+
+	- Need to implement delay between impact between current block and 'solidified' layers and solidification of current block (time for player to maneuver/rotate a couple last times)
+	
+	- Need to implement rotation, right way to do this?
+	
+	- Implement something where fast moving down (not instant) and fast moving sideways can be done at the same time.
+	
+	- 

@@ -171,8 +171,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
             }
         }
     }
-    // let moveTimeout;
-    // let moveInterval;
     function control(e){
         if(e.keyCode === 37){
             moveLeft();
@@ -188,11 +186,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
         // else if(e.keyCode === 40){
         //     moveDown();
         // }
+        else if(e.keyCode === 40){
+            moveDown();
+        }
     }
-    // function controlUp(e){
-    //     clearTimeout(moveTimeout);
-    //     clearInterval(moveInterval);
-    // }
     function moveLeft() {
         undraw();
         const isAtLeftEdge = currentTetromino.some(index => (currentPosition + index) % width === 0);
@@ -212,8 +209,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         draw();
     }
     document.addEventListener('keydown', control);
-    // document.addEventListener('keyup', controlUp);
-    timerId = setInterval(moveDown, 100)
+    timerId = setInterval(moveDown, 200)
 })
 
 
